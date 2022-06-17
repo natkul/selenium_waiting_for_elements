@@ -10,14 +10,14 @@ class AdminPage:
         url = config.URL + '/admin'
         self._driver.driver.get(url)
 
-    def username_field(self):
-        self._driver.find_element_by_css_selector("input[name='username']")
+    def input_username_field(self):
+        self._driver.find_element_by_css_selector("input[name='username']").send_keys("user")
 
-    def password_field(self):
-        self._driver.find_element_by_css_selector("input[name='password']")
+    def input_password_field(self):
+        self._driver.find_element_by_css_selector("input[name='password']").send_keys("bitnami")
 
-    def submit_button(self):
-        self._driver.find_element_by_css_selector("button[type='submit']")
+    def click_submit_button(self):
+        self._driver.find_element_by_css_selector("button[type='submit']").click()
 
     def forgotten_password_link(self):
         return self._driver.find_element_by_css_selector("a[href$='forgotten']").text

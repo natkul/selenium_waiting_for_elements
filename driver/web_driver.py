@@ -34,6 +34,12 @@ class WebDriver:
         driver.url = self.url
         self.driver = driver
 
+    def allert_accept(self):
+        return self.driver.switch_to.alert.accept()
+
+    def get_url(self):
+        return self.driver.current_url
+
     def __custom_find(self, method, elem, timeout):
         sleep(self.TIMEOUT_STEP)
         try:
@@ -44,8 +50,21 @@ class WebDriver:
             print(e)
             return None
 
+    def __custom_find_all_elements(self, method, elem, timeout):
+        sleep(self.TIMEOUT_STEP)
+        try:
+            element = WebDriverWait(self.driver, timeout, self.TIMEOUT_STEP).until(EC.presence_of_all_elements_located(
+                (method, elem)))
+            return element
+        except TimeoutException as e:
+            print(e)
+            return None
+
     def find_element_by_css_selector(self, elem, timeout=MAX_TIMEOUT):
         return self.__custom_find(By.CSS_SELECTOR, elem, timeout)
+
+    def find_elements_by_css_selector(self, elem, timeout=MAX_TIMEOUT):
+        return self.__custom_find_all_elements(By.CSS_SELECTOR, elem, timeout)
 
     def find_element_by_tag(self, elem, timeout=MAX_TIMEOUT):
         return self.__custom_find(By.TAG_NAME, elem, timeout)
@@ -61,3 +80,4 @@ class WebDriver:
 
     def wait_until_invisible(self, element, timeout=MAX_TIMEOUT):
         return WebDriverWait(self.driver, timeout).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, element)))
+
